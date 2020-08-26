@@ -47,6 +47,25 @@ RUN wget -q "$ZK_DOWNLOAD_URL/$ZK_DIST/$ZK_PACKAGE.tar.gz" \
       /opt/zookeeper/$ZK_PACKAGE.jar.md5 \
       /opt/zookeeper/$ZK_PACKAGE.jar.sha1
 
+# Datadog agent related environment variables
+ENV DD_SERVICE="flink-zk"
+ENV DD_TRACE_ENABLED="false"
+# Environment variables needed to activate datadog integration
+# SERVER_JVMFLAGS="-javaagent:/opt/zookeeper/dd-java-agent.jar"
+# DD_ENV
+# DD_AGENT_HOST
+
+# datadog java agent arguments
+ARG DD_REPO_BASE_URL=https://repository.sonatype.org/service/local/repositories
+ARG DD_VERSION=0.56.0
+
+RUN  apt-get update \
+  && apt-get install --no-install-recommends -y wget=1.20.1-1.1 \
+  && wget -O /opt/zookeeper/dd-java-agent.jar \
+    ${DD_REPO_BASE_URL}/central-proxy/content/com/datadoghq/dd-java-agent/${DD_VERSION}/dd-java-agent-${DD_VERSION}.jar \
+  && apt-get remove --purge -y wget \
+  && rm -rf /var/lib/apt/lists/*
+
 #Copy configuration generator script to bin
 COPY scripts /opt/zookeeper/bin/
 
@@ -64,3 +83,4 @@ RUN set -x \
   && ln -s /opt/zookeeper/bin/* /usr/bin \
   && ln -s /opt/zookeeper/$ZK_PACKAGE.jar /usr/share/zookeeper/ \
   && ln -s /opt/zookeeper/lib/* /usr/share/zookeeper
+
