@@ -12,7 +12,7 @@ RUN set -x \
     && apt-get -qq -y --no-install-recommends install \
       gnupg \
       wget \
-      netcat-openbsd \
+      socat \
     && rm -rf /var/lib/apt/lists/*
 
 RUN for key in $APACHE_KEYS; do \
