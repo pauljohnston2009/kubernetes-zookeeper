@@ -3,7 +3,7 @@ ENV ZK_USER=zookeeper \
 ZK_DATA_DIR=/var/lib/zookeeper/data \
 ZK_DATA_LOG_DIR=/var/lib/zookeeper/log \
 ZK_LOG_DIR=/var/log/zookeeper \
-ZK_DOWNLOAD_URL=https://downloads.apache.org/zookeeper \
+ZK_DOWNLOAD_URL=https://archive.apache.org/dist/zookeeper \
 APACHE_KEYS="68E327C1 6E1CC7A4 8EE2F25C D2C80E32 820F225C 92BC2F2B ADAFD097 \
   B5E9BD2D 767E7473 41CF31A9 173C31A2 15DFA1BA A615D22C 3B5B5147 8F6E35FC"
 
