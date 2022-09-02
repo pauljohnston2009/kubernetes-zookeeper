@@ -23,8 +23,8 @@ RUN for key in $APACHE_KEYS; do \
       gpg --keyserver keyserver.ubuntu.com --recv-key "$key"; \
     done
 
-ARG ZK_DIST=zookeeper-3.4.14
-ARG ZK_PACKAGE=$ZK_DIST
+ARG ZK_DIST=zookeeper-3.8.0
+ARG ZK_PACKAGE=apache-${ZK_DIST}-bin
 RUN wget -q "$ZK_DOWNLOAD_URL/$ZK_DIST/$ZK_PACKAGE.tar.gz" \
     && wget -q "$ZK_DOWNLOAD_URL/$ZK_DIST/$ZK_PACKAGE.tar.gz.asc" \
     && apt-get autoremove -y wget \

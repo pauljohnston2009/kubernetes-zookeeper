@@ -18,6 +18,10 @@
 # Starts a ZooKeeper server based on the supplied options.
 #     --servers           The number of servers in the ensemble. The default 
 #                         value is 1.
+#     --four_letter_words The 4lw.commands.whitelist config property
+#                         The default value is srvr,ruok,mntr
+#                         ruok is used for zookeeper-ready
+#                         mntr is used for zookeeper-metrics
 
 #     --data_dir          The directory where the ZooKeeper process will store its
 #                         snapshots. The default is /var/lib/zookeeper/data.
@@ -93,6 +97,7 @@ MAX_CLIENT_CNXNS=60
 SNAP_RETAIN_COUNT=3
 PURGE_INTERVAL=0
 SERVERS=1
+FOUR_LETTER_WORDS=srvr,ruok,mntr
 
 function print_usage() {
 echo "\
@@ -100,6 +105,11 @@ Usage: start-zookeeper [OPTIONS]
 Starts a ZooKeeper server based on the supplied options.
     --servers           The number of servers in the ensemble. The default 
                         value is 1.
+
+    --four_letter_words The 4lw.commands.whitelist config property
+                        The default value is srvr,ruok,mntr
+                        ruok is used for zookeeper-ready
+                        mntr is used for zookeeper-metrics
 
     --data_dir          The directory where the ZooKeeper process will store its
                         snapshots. The default is /var/lib/zookeeper/data.
@@ -198,6 +208,7 @@ function create_config() {
     echo "maxSessionTimeout=$MAX_SESSION_TIMEOUT" >> $CONFIG_FILE
     echo "autopurge.snapRetainCount=$SNAP_RETAIN_COUNT" >> $CONFIG_FILE
     echo "autopurge.purgeInterval=$PURGE_INTERVAL" >> $CONFIG_FILE
+    echo "4lw.commands.whitelist=$FOUR_LETTER_WORDS" >> $CONFIG_FILE
      if [ $SERVERS -gt 1 ]; then
         print_servers >> $CONFIG_FILE
     fi
@@ -230,6 +241,9 @@ while getopts "$optspec" optchar; do
             case "${OPTARG}" in
                 servers=*)
                     SERVERS=${OPTARG##*=}
+                    ;;
+                four_letter_words=*)
+                    FOUR_LETTER_WORDS=${OPTARG##*=}
                     ;;
                 data_dir=*)
                     DATA_DIR=${OPTARG##*=}
